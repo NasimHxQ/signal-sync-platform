@@ -1,0 +1,81 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../lib/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  name         String
+  firstName    String?
+  lastName     String?
+  timezone     String?
+  alerts       Json?
+  preferences  Json?
+  passwordHash String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@map("users")
+}
+
+model Signal {
+  id           String   @id @default(cuid())
+  symbol       String
+  type         String
+  price        Float
+  targetPrice  Float?
+  stopLoss     Float?
+  leverage     Int?
+  timeframe    String
+  source       String
+  confidence   Int
+  timestamp    DateTime
+  status       String
+  pnl          Float?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@index([source, timestamp])
+  @@index([status])
+  @@index([timestamp])
+  @@map("signals")
+}
+
+model Provider {
+  id           String    @id @default(cuid())
+  name         String
+  type         String
+  status       String
+  lastSignalAt DateTime?
+  winRate      Float     @default(0)
+  signalCount  Int       @default(0)
+  credentials  Json?
+  metadata     Json?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  @@index([status])
+  @@index([type])
+  @@map("providers")
+}
+
+model SavedFilter {
+  id        String   @id @default(cuid())
+  userId    String
+  name      String
+  criteria  Json
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId])
+  @@map("saved_filters")
+}
