@@ -44,7 +44,7 @@ export function CommandPalette({ open, onOpenChange }: CommandPaletteProps) {
               className="flex h-11 w-full rounded-md bg-transparent py-3 text-sm outline-none placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50"
             />
           </div>
-          <CommandPrimitive.List className="max-h-[300px] overflow-y-auto overflow-x-hidden">
+          <CommandPrimitive.List className="max-h-[300px] p-4 overflow-y-auto overflow-x-hidden">
             <CommandPrimitive.Empty className="py-6 text-center text-sm">No results found.</CommandPrimitive.Empty>
 
             {commands.map((group) => (

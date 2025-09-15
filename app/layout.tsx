@@ -23,6 +23,9 @@ export const metadata: Metadata = {
   description:
     "Aggregate, filter, and track crypto trading signals from multiple sources with automated alerts and performance analytics.",
   generator: "v0.app",
+  icons: {
+    icon: "/icon.png",
+  },
 }
 
 export default function RootLayout({
@@ -34,7 +37,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className={`font-sans ${geistSans.variable} ${geistMono.variable} antialiased`}>
         <Suspense fallback={null}>
-          <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
+          <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
             {children}
           </ThemeProvider>
           <Analytics />

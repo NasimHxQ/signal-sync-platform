@@ -13,9 +13,11 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Separator } from "@/components/ui/separator"
 import { useToast } from "@/hooks/use-toast"
+import { useTheme } from "next-themes"
 
 export default function SettingsPage() {
   const { toast } = useToast()
+  const { theme, setTheme } = useTheme()
   const [user, setUser] = useState<User | null>(null)
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
@@ -78,7 +80,7 @@ export default function SettingsPage() {
     }
 
     loadUser()
-  }, [])
+  }, [toast])
 
   const handleSaveAccount = async () => {
     try {
@@ -357,8 +359,11 @@ export default function SettingsPage() {
                   <p className="text-sm text-muted-foreground">Use dark theme for the interface</p>
                 </div>
                 <Switch 
-                  checked={darkMode}
-                  onCheckedChange={setDarkMode}
+                  checked={theme === "dark"}
+                  onCheckedChange={(checked) => {
+                    setTheme(checked ? "dark" : "light")
+                    setDarkMode(checked)
+                  }}
                   disabled={loading}
                 />
               </div>
