@@ -7,6 +7,8 @@ const createJestConfig = nextJest({
 const customJestConfig = {
   setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
   testEnvironment: 'jest-environment-jsdom',
+  // Ensure the test database schema is always up-to-date before tests run
+  globalSetup: '<rootDir>/jest.global-setup.js',
   // Let Next.js handle the module mapping from tsconfig.json
   collectCoverageFrom: [
     'lib/server/**/*.{js,ts}',

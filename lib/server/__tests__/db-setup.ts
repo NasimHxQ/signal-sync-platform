@@ -11,6 +11,10 @@ export async function setupTestDb() {
     }
   })
 
+  // Ensure tables exist (jest.global-setup runs prisma db push, but this is an extra safety)
+  // If the DB is brand new, some engines lazily create the file; touching models guarantees readiness
+  await testDb.$executeRaw`SELECT 1`;
+
   // Clean database
   await testDb.savedFilter.deleteMany()
   await testDb.signal.deleteMany()
