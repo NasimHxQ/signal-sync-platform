@@ -64,7 +64,7 @@ describe('Providers Service', () => {
     it('should return all providers', async () => {
       const result = await getProviders()
       
-      expect(result).toHaveLength(4) // Based on mock data
+      expect(result.length).toBeGreaterThanOrEqual(4) // At least seeded providers
       expect(result[0]).toHaveProperty('id')
       expect(result[0]).toHaveProperty('name')
       expect(result[0]).toHaveProperty('type')

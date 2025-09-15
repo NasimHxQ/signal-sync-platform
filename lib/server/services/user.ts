@@ -7,9 +7,11 @@ const DEMO_USER_EMAIL = 'demo@signalsync.app'
 
 export async function getCurrentUser(): Promise<User> {
   try {
-    const user = await db.user.findUnique({
-      where: { email: DEMO_USER_EMAIL },
-    })
+    let user = await db.user.findUnique({ where: { email: DEMO_USER_EMAIL } })
+    // If the demo user was renamed (email changed), fall back to the latest user
+    if (!user) {
+      user = await db.user.findFirst({ orderBy: { updatedAt: 'desc' } })
+    }
 
     if (user) {
       return {
@@ -89,6 +91,13 @@ export async function getUserProfile(): Promise<MeResponse> {
 
 export async function updateAccount(request: UpdateAccountRequest): Promise<UpdateAccountResponse> {
   try {
+    // Resolve current user by demo email or latest user
+    const existing = await db.user.findUnique({ where: { email: DEMO_USER_EMAIL } })
+      ?? await db.user.findFirst({ orderBy: { updatedAt: 'desc' } })
+    if (!existing) {
+      throw new Error('User not found')
+    }
+
     // Build update data
     const updateData: any = {}
     
@@ -104,13 +113,8 @@ export async function updateAccount(request: UpdateAccountRequest): Promise<Upda
       updateData.name = `${firstName} ${lastName}`.trim() || 'User'
     }
 
-    // If email is being updated, we need to handle the unique constraint
-    const whereClause = request.email && request.email !== DEMO_USER_EMAIL 
-      ? { email: DEMO_USER_EMAIL } 
-      : { email: DEMO_USER_EMAIL }
-
     const updatedUser = await db.user.update({
-      where: whereClause,
+      where: { id: existing.id },
       data: updateData,
     })
 
@@ -134,10 +138,9 @@ export async function updateAccount(request: UpdateAccountRequest): Promise<Upda
 
 export async function updatePassword(request: UpdatePasswordRequest): Promise<UpdatePasswordResponse> {
   try {
-    // Get the current user to verify their current password
-    const user = await db.user.findUnique({
-      where: { email: DEMO_USER_EMAIL },
-    })
+    // Resolve current user regardless of email changes
+    const user = await db.user.findUnique({ where: { email: DEMO_USER_EMAIL } })
+      ?? await db.user.findFirst({ orderBy: { updatedAt: 'desc' } })
 
     if (!user) {
       throw new Error('User not found')
