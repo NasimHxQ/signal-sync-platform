@@ -79,3 +79,16 @@ model SavedFilter {
   @@index([userId])
   @@map("saved_filters")
 }
+
+model WaitlistEntry {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  name      String?
+  source    String?  // e.g., "landing_page", "referral"
+  metadata  Json?    // Store additional info like referrer, utm params
+  createdAt DateTime @default(now())
+  notified  Boolean  @default(false)
+  
+  @@index([createdAt])
+  @@map("waitlist_entries")
+}

@@ -3,6 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge"
 import { ArrowRight, Zap, Filter, Bell, BarChart3, Shield, Clock } from "lucide-react"
 import Link from "next/link"
+import { WaitlistForm } from "@/components/ui/waitlist-form"
 
 export default function HomePage() {
   return (
@@ -32,10 +33,10 @@ export default function HomePage() {
             </nav>
             <div className="flex items-center space-x-2">
               <Button variant="ghost" size="sm" asChild>
-                <Link href="/login">Sign In</Link>
+                <Link href="#waitlist">Sign In</Link>
               </Button>
               <Button size="sm" asChild>
-                <Link href="/dashboard">Get Started</Link>
+                <Link href="#waitlist">Join Waitlist</Link>
               </Button>
             </div>
           </div>
@@ -58,13 +59,13 @@ export default function HomePage() {
             </p>
             <div className="flex flex-col gap-2 min-[400px]:flex-row justify-center">
               <Button size="lg" className="h-11 px-8" asChild>
-                <Link href="/dashboard">
-                  Start Free Trial
+                <Link href="#waitlist">
+                  Join Waitlist
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Link>
               </Button>
               <Button variant="outline" size="lg" className="h-11 px-8 bg-transparent" asChild>
-                <Link href="#demo">View Demo</Link>
+                <Link href="/dashboard">View Demo</Link>
               </Button>
             </div>
           </div>
@@ -214,26 +215,19 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* CTA Section */}
-        <section className="container space-y-6 py-8 md:py-12 lg:py-24 max-w-7xl mx-auto">
+        {/* Waitlist Section */}
+        <section id="waitlist" className="container space-y-6 py-8 md:py-12 lg:py-24 max-w-7xl mx-auto bg-muted/50">
           <div className="mx-auto flex max-w-[58rem] flex-col items-center space-y-4 text-center">
+            <Badge variant="default" className="text-sm">
+              Limited Early Access
+            </Badge>
             <h2 className="font-bold text-3xl leading-[1.1] sm:text-3xl md:text-6xl">
-              Ready to Maximize Your Trading Profits?
+              Join the Waitlist
             </h2>
             <p className="max-w-[85%] leading-normal text-muted-foreground sm:text-lg sm:leading-7">
-              Join thousands of traders who have streamlined their signal management and increased their profitability.
+              Be the first to know when SignalSync launches. Early access members get exclusive features and lifetime discounts.
             </p>
-            <div className="flex flex-col gap-2 min-[400px]:flex-row">
-              <Button size="lg" className="h-11 px-8" asChild>
-                <Link href="/dashboard">
-                  Start Free Trial
-                  <ArrowRight className="ml-2 h-4 w-4" />
-                </Link>
-              </Button>
-              <Button variant="outline" size="lg" className="h-11 px-8 bg-transparent" asChild>
-                <Link href="#contact">Contact Sales</Link>
-              </Button>
-            </div>
+            <WaitlistForm />
           </div>
         </section>
       </main>

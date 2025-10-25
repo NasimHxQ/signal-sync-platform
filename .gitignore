@@ -19,3 +19,5 @@ Thumbs.db
 .prettierrc
 .prettierignore
 .prettierignore
+prisma/dev.db
+prisma/prod.db

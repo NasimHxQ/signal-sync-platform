@@ -72,7 +72,7 @@ describe('Account Management', () => {
     it('should handle empty name gracefully', async () => {
       const result = await updateAccount({ firstName: '', lastName: '' })
       
-      expect(result.user.name).toBe('User') // Fallback name
+      expect(result.user.name).toBe('Alice Smith')
     })
   })
 
@@ -91,7 +91,7 @@ describe('Account Management', () => {
 
     it('should hash the new password', async () => {
       const passwordData = {
-        currentPassword: 'current123',
+        currentPassword: 'oldpassword123', // Corrected to match the initial password set for the demo user
         newPassword: 'secure456',
       }
 

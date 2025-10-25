@@ -149,6 +149,9 @@ export async function updatePassword(request: UpdatePasswordRequest): Promise<Up
     // Verify current password if user has one set
     if (user.passwordHash) {
       const currentPasswordValid = await bcrypt.compare(request.currentPassword, user.passwordHash)
+      console.log('request.currentPassword', request.currentPassword)
+      console.log('user.passwordHash', user.passwordHash)
+      console.log('currentPasswordValid', currentPasswordValid)
       if (!currentPasswordValid) {
         throw new Error('Current password is incorrect')
       }

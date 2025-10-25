@@ -10,7 +10,7 @@ export async function getAlertSettings(): Promise<AlertSettings> {
     })
 
     if (user && user.alerts) {
-      return user.alerts as AlertSettings
+      return user.alerts as any
     }
 
     // Return default settings if user not found or no alerts configured
@@ -49,13 +49,13 @@ export async function saveAlertSettings(settings: AlertSettings): Promise<SaveAl
     await db.user.upsert({
       where: { email: DEMO_USER_EMAIL },
       update: { 
-        alerts: settings,
+        alerts: settings as any,
         updatedAt: new Date(),
       },
       create: {
         email: DEMO_USER_EMAIL,
         name: 'Demo User',
-        alerts: settings,
+        alerts: settings as any,
       },
     })
 
